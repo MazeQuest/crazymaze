@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRAZYMAZE</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: black;
+      overflow: hidden;
+    }
+    #fullscreen-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #444;
+      color: white;
+      border: none;
+      cursor: pointer;
+      z-index: 3;
+    }
+    #game-area {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      background-color: black;
+     
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: repeat(10, 1fr);
+    }
+    
+    .wall {
+      background-color: black;
+    }
+    .path {
+      background-color: white;
+    }
+    .exit {
+      position: absolute;
+      top: 0;  
+      left: 0; 
+      width: 60px;
+      height: 60px;
+      background-color: black; 
+      border: 0px solid white;
+      z-index: 2;
+    }
+    #player {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: black;
+      z-index: 2;
+    }
+    #spotlight {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .control-buttons {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+    }
+    .arrow-btn {
+      width: 40px;
+      height: 40px;
+      background-color: #444;
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .arrow-btn:focus {
+      outline: none;
+    }
+    .arrow-btn-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .arrow-btn-container-row {
+      display: flex;
+      justify-content: center;
+    }
+    #winner-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 30px;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      display: none;
+      z-index: 4;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="fullscreen-btn">Toggle Fullscreen</button>
+
+  <div id="game-area">
+    
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    
+   
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="path"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    
+    <div class="path"></div>
+    
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="wall"></div>
+    <div class="path"></div>
+    <div class="exit"></div>
+    
+    <div id="player"></div>
+    <canvas id="spotlight"></canvas>
+  </div>
+
+  <div class="control-buttons">
+    <div class="arrow-btn-container">
+      <button class="arrow-btn" id="up">↑</button>
+    </div>
+    <div class="arrow-btn-container-row">
+      <button class="arrow-btn" id="left">←</button>
+      <button class="arrow-btn" id="right">→</button>
+    </div>
+    <div class="arrow-btn-container">
+      <button class="arrow-btn" id="down">↓</button>
+    </div>
+  </div>
+
+  <div id="winner-message">You Win!</div>
+
+  <script>
+    const player = document.getElementById('player');
+    const spotlight = document.getElementById('spotlight');
+    const gameArea = document.getElementById('game-area');
+    const ctxSpotlight = spotlight.getContext('2d');
+    const winnerMessage = document.getElementById('winner-message');
+
+    const step = 5;
+    const cellSize = 50;
+    spotlight.width = gameArea.offsetWidth;
+    spotlight.height = gameArea.offsetHeight;
+
+    let positionX = 320;
+    let positionY = 170;
+    player.style.left = positionX + 'px';
+    player.style.top = positionY + 'px';
+
+    function drawSpotlight() {
+      ctxSpotlight.clearRect(0, 0, spotlight.width, spotlight.height);
+      ctxSpotlight.fillStyle = 'rgba(0, 0, 0, 1)';
+      ctxSpotlight.fillRect(0, 0, spotlight.width, spotlight.height);
+
+      const spotlightX = positionX + player.offsetWidth / 2;
+      const spotlightY = positionY + player.offsetHeight / 2;
+
+      ctxSpotlight.globalCompositeOperation = 'destination-out';
+      ctxSpotlight.beginPath();
+      ctxSpotlight.arc(spotlightX, spotlightY, 25, 0, Math.PI * 2);
+      ctxSpotlight.fill();
+      ctxSpotlight.globalCompositeOperation = 'source-over';
+    }
+
+    function isPath(x, y) {
+      const centerX = x + player.offsetWidth / 2;
+      const centerY = y + player.offsetHeight / 2;
+      const indexX = Math.floor(centerX / cellSize);
+      const indexY = Math.floor(centerY / cellSize);
+      const cellIndex = indexY * 10 + indexX;
+      const cell = gameArea.children[cellIndex];
+      return cell && (cell.classList.contains('path') || cell.classList.contains('exit'));
+    }
+
+    function isExit(x, y) {
+      return (
+        x <= 50 && 
+        y <= 50    
+      );
+    }
+
+    function movePlayer(direction) {
+      let newX = positionX;
+      let newY = positionY;
+      switch (direction) {
+        case 'up':    newY -= step; break;
+        case 'down':  newY += step; break;
+        case 'left':  newX -= step; break;
+        case 'right': newX += step; break;
+      }
+
+      if (
+        newX >= 0 &&
+        newX <= gameArea.offsetWidth - player.offsetWidth &&
+        newY >= 0 &&
+        newY <= gameArea.offsetHeight - player.offsetHeight &&
+        isPath(newX, newY)
+      ) {
+        positionX = newX;
+        positionY = newY;
+      }
+      player.style.left = positionX + 'px';
+      player.style.top = positionY + 'px';
+      drawSpotlight();
+      if (isExit(positionX, positionY)) {
+        winnerMessage.style.display = 'block';
+      }
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.repeat) return;
+      switch (event.key) {
+        case 'ArrowUp':    movePlayer('up'); break;
+        case 'ArrowDown':  movePlayer('down'); break;
+        case 'ArrowLeft':  movePlayer('left'); break;
+        case 'ArrowRight': movePlayer('right'); break;
+      }
+    });
+
+    document.getElementById('up').addEventListener('click', () => movePlayer('up'));
+    document.getElementById('down').addEventListener('click', () => movePlayer('down'));
+    document.getElementById('left').addEventListener('click', () => movePlayer('left'));
+    document.getElementById('right').addEventListener('click', () => movePlayer('right'));
+
+    document.getElementById('fullscreen-btn').addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    drawSpotlight();
+  </script>
+
+</body>
+</html>
